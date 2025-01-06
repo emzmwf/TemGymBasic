@@ -460,7 +460,8 @@ class Sample():
         self.sample_image_z = 0
 
         self.sample = sample
-        self.sample_pixels = sample.shape[0]
+        if sample is not None:
+            self.sample_pixels = sample.shape[0]
         self.sample_size = width
         
         self.blocked_ray_idcs = []
