@@ -269,7 +269,7 @@ class LinearTEMCtrl:
         if self.model.experiment != None:
             self.model.experiment_gui.scanpixelsslider.valueChanged.connect(self.update)
             
-        self.model.gui.checkBoxParalell.stateChanged.connect(self.update)
+        self.model.gui.checkBoxparallel.stateChanged.connect(self.update)
         self.model.gui.checkBoxPoint.stateChanged.connect(self.update)
         self.model.gui.checkBoxAxial.stateChanged.connect(self.update)
         self.model.gui.beamangleslider.valueChanged.connect(self.update)
