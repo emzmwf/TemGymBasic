@@ -572,7 +572,7 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             idx += 1
         elif component.type == 'Quadrupole':
             r = component.radius
-            ax.text(label_x, component.z-0.01, 'Upper ' +
+            ax.text(label_x, component.z-0.01, '' +
                     component.name, fontsize=label_fontsize, zorder = 1000)
             ax.plot([-r, -r/2], [z[idx], z[idx]],
                     color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
