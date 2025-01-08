@@ -181,7 +181,7 @@ class Model():
         
         self.r[:, 4, :] = np.ones(self.num_rays)
 
-        if self.beam_type == 'paralell':
+        if self.beam_type == 'parallel':
             self.r, self.spot_indices = circular_beam(self.r, self.beam_radius)
         elif self.beam_type == 'point':
             self.r, self.spot_indices = point_beam(self.r, self.gun_beam_semi_angle)
@@ -285,8 +285,8 @@ class Model():
 
         if self.gui.checkBoxAxial.isChecked():
             self.beam_type = 'axial'
-        if self.gui.checkBoxParalell.isChecked():
-            self.beam_type = 'paralell'
+        if self.gui.checkBoxParallel.isChecked():
+            self.beam_type = 'parallel'
         if self.gui.checkBoxPoint.isChecked():
             self.beam_type = 'point'
             
