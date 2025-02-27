@@ -9,13 +9,13 @@ import temgymbasic.shapes
 #            self.sample_pixels = sample.shape[0]
 
 # NOTE2 - colours are currently hardcoded for the package in run.py
-# lines 524-526, to overcome this need to run in the script:
+# This replaces show_matplotlib and allows colours to be redefined
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, label_fontsize = 20):
+def show_matplotlib_Colour(model, name = 'model.svg', component_lw = 4, edge_lw = 1, label_fontsize = 20, ray_color = 'dimgray', fill_color = 'palegreen', fill_color_pair = ['khaki', 'chartreuse'], CompCol1 = 'lightcoral', CompCol2 = 'lightblue', CompCol3 = 'dimgrey' ):
     '''Code to show a matplotlib model
 
     Parameters
@@ -38,6 +38,18 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
     ax : class
         Matplotlib axis object of the figure
     '''    
+    '''default colours are
+    #Ray colours
+    ray_color = 'dimgray'
+    fill_color = 'palegreen'
+    fill_color_pair = ['khaki', 'chartreuse']
+    #Component colours
+    CompCol1 = 'lightcoral'	
+    CompCol2 = 'lightblue'
+    #Component colours - apertures, biprism
+    CompCol3 = 'dimgrey'
+    '''
+		
     #Step the rays through the model to get the ray positions throughout the column
     rays = model.step()
 
@@ -71,10 +83,7 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
     #Generate a list of the allowed rays, so we can block them when they hit an aperture
     allowed_rays = range(model.num_rays)
     
-    #Set colors of rays
-    ray_color = 'dimgray'
-    fill_color = 'palegreen'
-    fill_color_pair = ['khaki', 'chartreuse']
+    #Set rays plotting info
 
     fill_alpha = 1
     ray_alpha = 1
@@ -115,7 +124,7 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
 
             if model.beam_type == 'x_axial' and component.theta == 0:
                 ax.plot(component.points[0, :], component.points[2,
-                        :], color='dimgrey', alpha=0.8, linewidth=component_lw)
+                        :], color=CompCol3, alpha=0.8, linewidth=component_lw)
             elif model.beam_type == 'x_axial' and component.theta == np.pi/2:
                 ax.add_patch(plt.Circle((0, component.z), component.width,
                              edgecolor='k', facecolor='w', zorder=1000))
@@ -126,13 +135,13 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             ax.text(label_x, component.z-0.01, 'Upper ' +
                     component.name, fontsize=label_fontsize, zorder = 1000)
             ax.plot([-r, -r/2], [z[idx], z[idx]],
-                    color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol1, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-r/2, 0], [z[idx], z[idx]],
-                    color='lightblue', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol2, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([0, r/2], [z[idx], z[idx]],
-                    color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol1, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([r/2, r], [z[idx], z[idx]],
-                    color='lightblue', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol2, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-r, r], [z[idx], z[idx]],
                     color='k', alpha=0.8, linewidth=component_lw+2, zorder=998)
             idx += 1
@@ -144,9 +153,9 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             ro = component.aperture_radius_outer
 
             ax.plot([-ri, -ro], [z[idx], z[idx]],
-                    color='dimgrey', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol3, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([ri, ro], [z[idx], z[idx]],
-                    color='dimgrey', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol3, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-ri, -ro], [z[idx], z[idx]],
                     color='k', alpha=1, linewidth=component_lw+2, zorder=998)
             ax.plot([ri, ro], [z[idx], z[idx]],
@@ -158,9 +167,9 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             ax.text(label_x, component.z_up-0.01, 'Upper ' +
                     component.name, fontsize=label_fontsize, zorder = 1000)
             ax.plot([-r, 0], [z[idx], z[idx]],
-                    color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol1, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([0, r], [z[idx], z[idx]],
-                    color='lightblue', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol2, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-r, r], [z[idx], z[idx]],
                     color='k', alpha=0.8, linewidth=component_lw+2, zorder=998)
             idx += 1
@@ -186,9 +195,9 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             ax.text(label_x, component.z_low-0.01,
                     'Lower ' + component.name, fontsize=label_fontsize, zorder = 1000)
             ax.plot([-r, 0], [z[idx], z[idx]],
-                    color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol1, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([0, r], [z[idx], z[idx]],
-                    color='lightblue', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol2, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-r, r], [z[idx], z[idx]],
                     color='k', alpha=0.8, linewidth=component_lw+2, zorder=998)
             idx += 1
@@ -217,9 +226,9 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
             ax.text(label_x, component.z-0.01,
                     component.name, fontsize=label_fontsize, zorder = 1000)
             ax.plot([-r, 0], [z[idx], z[idx]],
-                    color='lightcoral', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol1, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([0, r], [z[idx], z[idx]],
-                    color='lightblue', alpha=1, linewidth=component_lw, zorder=999)
+                    color=CompCol2, alpha=1, linewidth=component_lw, zorder=999)
             ax.plot([-r, r], [z[idx], z[idx]],
                     color='k', alpha=0.8, linewidth=component_lw+2, zorder=998)
 
@@ -229,7 +238,7 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
                     component.name, fontsize=label_fontsize, zorder = 1000)
             w = component.width
             ax.plot([component.x-w/2, component.x+w/2], [z[idx], z[idx]],
-                    color='dimgrey', alpha=0.8, linewidth=3)
+                    color=CompCol3, alpha=0.8, linewidth=3)
 
             idx += 1
 
@@ -272,7 +281,7 @@ def show_matplotlib(model, name = 'model.svg', component_lw = 4, edge_lw = 1, la
     #Create the final labels and plot the detector shape
     ax.text(label_x, -0.01, 'Detector', fontsize=label_fontsize, zorder = 1000)
     ax.plot([-model.detector_size/2, model.detector_size/2],
-            [0, 0], color='dimgrey', alpha=1, linewidth=component_lw)
+            [0, 0], color=CompCol3, alpha=1, linewidth=component_lw)
     
     return fig, ax
 
@@ -289,6 +298,6 @@ model_ = Model(components, beam_z=1, beam_type='x_axial',
                    num_rays=32, gun_beam_semi_angle=0.25)
 
 name = 'electronoptics_model_tem_recoloured.svg'
-fig, ax = show_matplotlib(model_, name = name, label_fontsize = 14)
+fig, ax = show_matplotlib_Colour(model_, name = name, label_fontsize = 14)
 fig.suptitle('TEM basic ElectronOptics Model', fontsize=32)
 fig.savefig(name, dpi = 500)
